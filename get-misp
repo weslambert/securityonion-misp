@@ -1,0 +1,61 @@
+#!/bin/bash
+ENGINE="suricata"
+IP="192.168.1.1"
+PROTOCOL=""
+APIKEY="1234"
+RULE_PATH="/etc/nsm/rules/local.misp.rules"
+
+for i in $ENGINE $IP $PROTOCOL $APIKEY $RULE_PATH; do
+	if [ $i == "" ]; then
+		echo $i is null!
+		exit 0
+	fi
+done
+
+wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
+
+# Set correct perms
+chown sguil:sguil $RULE_PATH
+chmod 644 $RULE_PATH
+
+echo ""
+echo "New MISP rules downloaded!"
+echo ""
+
+echo ""
+echo "Configuring Pulledpork to use these rules:"
+echo ""
+
+PP_CONF="/etc/nsm/pulledpork/pulledpork.conf"
+
+echo "Engine is $ENGINE!"
+
+echo "Copyng rules to $RULE_PATH"
+
+if [ "$ENGINE" = "snort" ]; then
+	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,$RULE_PATH|" $PP_CONF
+elif [ "$ENGINE" = "suricata" ];then
+	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,/etc/nsm/rules/decoder-events.rules,/etc/nsm/rules/stream-events.rules,/etc/nsm/rules/http-events.rules,/etc/nsm/rules/smtp-events.rules,$RULE_PATH|" $PP_CONF
+fi
+
+if [ -f /etc/cron.d/get-misp ]; then
+	:
+else
+	touch /etc/cron.d/get-misp
+	cat << EOF > /etc/cron.d/get-misp 
+# /etc/cron.d/get-misp
+#
+# crontab entry to update MISP IDS rules
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+01 6    * * *   root    /usr/sbin/get-misp > /dev/null 2>&1
+EOF
+fi	
+
+echo "If manually running this script, ensure that /usr/sbin/rule-update is run afterwards."
+
+echo ""
+echo "That's all folks!"
+echo ""

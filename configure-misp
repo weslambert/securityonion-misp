@@ -1,29 +1,9 @@
 #!/bin/bash
-ENGINE=""
-IP=""
-PROTOCOL=""
-APIKEY=""
-RULE_PATH="/etc/nsm/rules/local.misp.rules"
 
-for i in $ENGINE $IP $PROTOCOL $APIKEY $RULE_PATH; do
-	if [ $i == "" ]; then
-		echo $i is null!
-		exit 0
-	fi
-done
-
-wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
-
-# Set correct perms
-chown sguil:sguil $RULE_PATH
-chmod 644 $RULE_PATH
+/usr/sbin/download-misp
 
 echo ""
-echo "New MISP rules downloaded!"
-echo ""
-
-echo ""
-echo "Configuring Pulledpork to use these rules:"
+echo "Configuring Pulledpork..."
 echo ""
 
 PP_CONF="/etc/nsm/pulledpork/pulledpork.conf"

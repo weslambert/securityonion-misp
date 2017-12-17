@@ -72,13 +72,14 @@ if [ $confirm != "YES" ]; then
 else
         echo "Cloning GH Repo..."
 		#git clone https://github.com/weslambert/securityonion-misp
-		
+		DL_MISP="securityonion-misp/download-misp"
 		echo "Configuring..."
-		sed -i "s/^IP.*/IP=\"$ip\"/" securityonion-misp/get-misp
-		sed -i "s/^ENGINE.*/ENGINE=\"$engine\"/" securityonion-misp/get-misp
-		sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" securityonion-misp/get-misp
-		sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" securityonion-misp/get-misp
-		cp securityonion-misp/get-misp /usr/sbin/get-misp
+		sed -i "s/^IP.*/IP=\"$ip\"/" $DL_MISP
+		sed -i "s/^ENGINE.*/ENGINE=\"$engine\"/" $DL_MISP
+		sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $DL_MISP
+		sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $DL_MISP
+		cp securityonion-misp/get-misp /usr/sbin/download-misp
+		chmod +x /usr/sbin/download-misp
 		echo
 		echo "Configuration complete!"
 		echo

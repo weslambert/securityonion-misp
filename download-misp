@@ -1,8 +1,8 @@
 #!/bin/bash
-ENGINE=""
-IP=""
+ENGINE="snort"
+IP="1.1.1.1"
 PROTOCOL=""
-APIKEY=""
+APIKEY="1234"
 RULE_PATH="/etc/nsm/rules/local.misp.rules"
 
 for i in $ENGINE $IP $PROTOCOL $APIKEY $RULE_PATH; do

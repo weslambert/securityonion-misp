@@ -44,6 +44,9 @@ echo
 
 echo
 echo "Please provide an API key to access a MISP instance."
+echo 
+echo "You can find this information by navigating to:"
+echo "https://your-misp-instance/events/automation"
 read -s apikey
 echo
 
@@ -63,7 +66,9 @@ read confirm
 echo
 
 if [ $confirm != "YES" ]; then
-        exit 0
+        echo "Did confirm configuration...exiting..."
+	echo
+	exit 0
 else
         echo "Cloning GH Repo..."
 		#git clone https://github.com/weslambert/securityonion-misp

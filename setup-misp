@@ -78,7 +78,7 @@ else
 		sed -i "s/^ENGINE.*/ENGINE=\"$engine\"/" $DL_MISP
 		sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $DL_MISP
 		sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $DL_MISP
-		cp securityonion-misp/get-misp /usr/sbin/download-misp
+		cp securityonion-misp/download-misp /usr/sbin/download-misp
 		chmod +x /usr/sbin/download-misp
 		echo
 		securityonion/configure-misp	

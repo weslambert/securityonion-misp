@@ -5,6 +5,7 @@ echo
 header "Welcome to the Security Onion MISP NIDS Rules Import Wizard!"
 echo
 
+# Get responses
 echo
 echo "What is the ip address of your MISP instance? [x.x.x.x]"
 read ip
@@ -70,17 +71,26 @@ if [ $confirm != "YES" ]; then
 	echo
 	exit 0
 else
-        echo "Cloning GH Repo..."
-		git clone https://github.com/weslambert/securityonion-misp
-		DL_MISP="securityonion-misp/download-misp"
-		echo "Configuring..."
-		sed -i "s/^IP.*/IP=\"$ip\"/" $DL_MISP
-		sed -i "s/^ENGINE.*/ENGINE=\"$engine\"/" $DL_MISP
-		sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $DL_MISP
-		sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $DL_MISP
-		cp securityonion-misp/download-misp /usr/sbin/download-misp
-		chmod +x /usr/sbin/download-misp
-		echo
-		securityonion-misp/configure-misp	
-		echo
+        #echo "Cloning GH Repo..."
+	#git clone https://github.com/weslambert/securityonion-misp
+	DL_MISP="securityonion-misp/download-misp"
+	
+	echo "Configuring..."
+	
+	# Configure download-misp with appropriate values
+	sed -i "s/^IP.*/IP=\"$ip\"/" $DL_MISP
+	sed -i "s/^ENGINE.*/ENGINE=\"$engine\"/" $DL_MISP
+	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $DL_MISP
+	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $DL_MISP
+	
+	# Copy download-misp into place
+	cp securityonion-misp/download-misp /usr/sbin/download-misp
+	
+	# Set perms
+	chmod +x /usr/sbin/download-misp
+	
+	echo
+	# Run configuration script 
+	securityonion-misp/configure-misp	
+	echo
 fi

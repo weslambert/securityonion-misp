@@ -71,7 +71,7 @@ if [ $confirm != "YES" ]; then
 	exit 0
 else
         echo "Cloning GH Repo..."
-		#git clone https://github.com/weslambert/securityonion-misp
+		git clone https://github.com/weslambert/securityonion-misp
 		DL_MISP="securityonion-misp/download-misp"
 		echo "Configuring..."
 		sed -i "s/^IP.*/IP=\"$ip\"/" $DL_MISP
@@ -81,6 +81,6 @@ else
 		cp securityonion-misp/download-misp /usr/sbin/download-misp
 		chmod +x /usr/sbin/download-misp
 		echo
-		securityonion/configure-misp	
+		securityonion-misp/configure-misp	
 		echo
 fi

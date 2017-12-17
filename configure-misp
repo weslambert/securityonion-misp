@@ -8,10 +8,6 @@ echo ""
 
 PP_CONF="/etc/nsm/pulledpork/pulledpork.conf"
 
-echo "Engine is $ENGINE!"
-
-echo "Copyng rules to $RULE_PATH"
-
 if [ "$ENGINE" = "snort" ]; then
 	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,$RULE_PATH|" $PP_CONF
 elif [ "$ENGINE" = "suricata" ];then

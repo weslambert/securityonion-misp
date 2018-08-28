@@ -12,22 +12,6 @@ read ip
 echo
 
 echo
-engine=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
-echo
-echo "It looks like your IDS engine is: $engine"
-echo
-echo "Would you like to download rules for this IDS engine? [yes/no]"
-read yesno
-if [ $yesno = "yes" ]; then
-	:
-else
-	echo
-	echo "For which IDS engine would you like to download rules? [snort/suricata]"
-	read engine
-fi
-echo
-
-echo
 echo "What protocol should be used? [http/https]"
 echo
 echo "For security, the protocol is set as https, by default."
@@ -40,7 +24,6 @@ else
 	echo "Which protocol would you like to use? [http/https]"
 	read protocol
 fi
-
 echo
 
 echo
@@ -73,24 +56,26 @@ if [ $confirm != "YES" ]; then
 else
         #echo "Cloning GH Repo..."
 	#git clone https://github.com/weslambert/securityonion-misp
-	DL_MISP="securityonion-misp/download-misp"
+	MISPCFG="securityonion-misp/mispcfg"
 	
 	echo "Configuring..."
 	
 	# Configure download-misp with appropriate values
-	sed -i "s/^IP.*/IP=\"$ip\"/" $DL_MISP
-	sed -i "s/^ENGINE.*/ENGINE=\"$engine\"/" $DL_MISP
-	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $DL_MISP
-	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $DL_MISP
+	sed -i "s/^IP.*/IP=\"$ip\"/" $MISPCFG
+	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $MISPCFG
+	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
 	
 	# Copy download-misp into place
 	cp securityonion-misp/download-misp /usr/sbin/download-misp
+	mkdir -p /etc/misp
+        cp securityonion-misp/mispcfg /etc/misp/mispcfg
 	
 	# Set perms
 	chmod +x /usr/sbin/download-misp
+        chmod =x /usr/sbin/configure-misp
 	
 	echo
 	# Run configuration script 
-	securityonion-misp/configure-misp	
+	/usr/sbin/configure-misp	
 	echo
 fi

@@ -1,0 +1,6 @@
+ENGINE="suricata"
+IP="192.168.1.72"
+PROTOCOL="http"
+APIKEY="SFzRF2BLVrvjE7Cq9oZE5wmUX7URBpq2q6wCm5zB"
+RULE_PATH="/etc/nsm/rules/local.misp.rules"
+

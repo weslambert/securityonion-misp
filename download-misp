@@ -1,9 +1,5 @@
 #!/bin/bash
-ENGINE=""
-IP=""
-PROTOCOL=""
-APIKEY=""
-RULE_PATH="/etc/nsm/rules/local.misp.rules"
+source /etc/misp/mispcfg
 
 for i in $ENGINE $IP $PROTOCOL $APIKEY $RULE_PATH; do
 	if [ $i == "" ]; then

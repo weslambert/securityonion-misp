@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#/usr/sbin/download-misp
+
+source /etc/misp/mispcfg
+
+ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
+
+# Run download script
 /usr/sbin/download-misp
 
 echo ""

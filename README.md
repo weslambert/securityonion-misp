@@ -1,5 +1,5 @@
 # securityonion-misp
-**Grab NIDS rules generated from a MISP instance and use them in Security Onion:**   
+**Grab NIDS rules and Bro Intel generated from a MISP instance and use them in Security Onion:**   
 See: https://www.circl.lu/doc/misp/automation/#nids-rules-export
 
 - Clone the repo:   
@@ -10,3 +10,5 @@ See: https://www.circl.lu/doc/misp/automation/#nids-rules-export
 `sudo rule-update`   
 - Confirm rules in place:    
 `grep -i misp /etc/nsm/rules/downloaded.rules`    
+- Confirm Bro Intel in place:    
+`cat /opt/bro/share/bro/intel/misp-intel.dat`

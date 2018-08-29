@@ -35,11 +35,27 @@ read -s apikey
 echo
 
 echo
+echo "Would you like to configure NIDS rules for Snort/Suricata?"
+echo 
+echo "Is so, please type YES below and press the ENTER key:"
+echo 
+read nids_rules
+echo
+
+echo
+echo "Would you like to configure Intel data for Bro?"
+echo 
+echo "Is so, please type YES below and press the ENTER key:"
+echo 
+read intel
+echo
+
+
+echo
 echo "To confirm, we will configure the following values:"
 echo
 
 echo "IP: $ip"
-echo "IDS: $engine"
 echo "PROTOCOL: $protocol"
 echo "APIKEY: (redacted)"
 echo
@@ -56,7 +72,9 @@ if [ $confirm != "YES" ]; then
 else
         #echo "Cloning GH Repo..."
 	#git clone https://github.com/weslambert/securityonion-misp
-	MISPCFG="securityonion-misp/mispcfg"
+	MISPCFG="/etc/misp//mispcfg"
+	mkdir -p /etc/misp
+        cp securityonion-misp/mispcfg $MISPCFG
 	
 	echo "Configuring..."
 	
@@ -64,18 +82,19 @@ else
 	sed -i "s/^IP.*/IP=\"$ip\"/" $MISPCFG
 	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $MISPCFG
 	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
+	sed -i "s/^INTEL=.*/INTEL=\"${intel,,}\"/" $MISPCFG
+	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $MISPCFG
 	
-	# Copy download-misp into place
+	# Copy misp scripts into place
 	cp securityonion-misp/download-misp /usr/sbin/download-misp
-	mkdir -p /etc/misp
-        cp securityonion-misp/mispcfg /etc/misp/mispcfg
+	cp securityonion-misp/configure-misp /usr/sbin/configure-misp
 	
 	# Set perms
 	chmod +x /usr/sbin/download-misp
-        chmod =x /usr/sbin/configure-misp
+        chmod +x /usr/sbin/configure-misp
 	
 	echo
 	# Run configuration script 
-	/usr/sbin/configure-misp	
+	#/usr/sbin/configure-misp	
 	echo
 fi

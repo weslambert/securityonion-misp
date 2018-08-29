@@ -1,19 +1,39 @@
 #!/bin/bash
 source /etc/misp/mispcfg
 
-for i in $ENGINE $IP $PROTOCOL $APIKEY $RULE_PATH; do
+for i in $IP $PROTOCOL $APIKEY $RULE_PATH; do
 	if [ $i == "" ]; then
 		echo $i is null!
 		exit 0
 	fi
 done
 
-wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
+# if NIDS_RULES enabled, then get NIDS rules
+if [[ $NIDS_RULES == "yes" ]];then
+	# get NIDS rules
+	wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
+	# Set correct perms
+	chown sguil:sguil $RULE_PATH
+	chmod 644 $RULE_PATH
+else
+	:
+fi
 
-# Set correct perms
-chown sguil:sguil $RULE_PATH
-chmod 644 $RULE_PATH
+# if Bro Intel enabled, then get Bro Intel
+if [[ $INTEL == "yes" ]];then
+        wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/attributes/bro/download/all -O $INTEL_PATH
+	LOAD_BRO="/opt/bro/share/bro/intel/__load__.bro"
+	if grep -q misp $LOAD_BRO; then
+        	# Already appended to list of intel files
+        	echo "Already configured!"
+        	:
+	else
+        	# Add misp-intel to list of intel files
+        	sed -i 's#.*"/opt/bro/share/bro/intel/intel.dat"#        "/opt/bro/share/bro/intel/intel.dat",#' $LOAD_BRO
+        	sed -i '/.*intel.dat",/a \ \ \ \ \ \ \ \ "\/opt\/bro\/share\/bro\/intel\/misp-intel.dat\"' $LOAD_BRO
+	fi
+	nsm_sensor_ps-restart --only-bro
+else
+        :
+fi
 
-echo ""
-echo "New MISP rules downloaded!"
-echo ""

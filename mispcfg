@@ -1,6 +1,8 @@
-ENGINE=""
 IP=""
 PROTOCOL=""
 APIKEY=""
+INTEL=""
+NIDS_RULES=""
+INTEL_PATH="/opt/bro/share/bro/intel/misp-intel.dat"
 RULE_PATH="/etc/nsm/rules/local.misp.rules"
 

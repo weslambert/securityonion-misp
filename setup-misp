@@ -95,6 +95,6 @@ else
 	
 	echo
 	# Run configuration script 
-	#/usr/sbin/configure-misp	
+	/usr/sbin/configure-misp	
 	echo
 fi

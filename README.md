@@ -2,6 +2,12 @@
 **Grab NIDS rules and Bro Intel generated from a MISP instance and use them in Security Onion:**   
 See: https://www.circl.lu/doc/misp/automation/#nids-rules-export
 
+Prerequisites:   
+- Security Onion (installed,configured)
+- MISP Instance and API Key   
+  
+
+Download and Configure (on Master or Standalone)
 - Clone the repo:   
 `git clone https://github.com/weslambert/securityonion-misp`   
 - Run the setup script:   

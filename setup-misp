@@ -1,14 +1,37 @@
 #!/bin/bash
 
 . /usr/sbin/so-common
+
+is_ip() {
+            case "$*" in
+                ""|*[!0-9.]*) return 1 ;;
+            esac
+            oldIFS=$IFS
+            IFS='.'
+            set -- $*
+            IFS=$oldIFS
+            [ $# -eq 4 ] || return 1
+            for ipseg in $1 $2 $3 $4
+              do
+              case $ipseg in
+                  *[!0-9]*) return 1 ;;
+              esac
+              [ $ipseg -le 255 ] || return 1
+            done
+}
+
 echo
-header "Welcome to the Security Onion MISP NIDS Rules Import Wizard!"
+header "Welcome to the Security Onion MISP Import Wizard!"
 echo
 
 # Get responses
 echo
-echo "What is the ip address of your MISP instance? [x.x.x.x]"
-read ip
+VALID_IP="no"
+while [ "$VALID_IP" = "no" ]; do
+        echo "What is the ip address of your MISP instance? [x.x.x.x]"
+	read ip
+	is_ip $ip && VALID_IP="yes"
+done
 echo
 
 echo
@@ -22,7 +45,17 @@ if [ $yesno  = "yes" ]; then
 else
 	echo
 	echo "Which protocol would you like to use? [http/https]"
-	read protocol
+	PROTOCOL_SET="no"
+	while [ $PROTOCOL_SET = "no" ]; do
+		read protocol
+		echo $protocol
+		if [ $protocol = "http" ] || [ $protocol = "https" ] ; then
+			PROTOCOL_SET="yes"
+		else
+			echo "Please choose a valid protocol! ('http' or 'https')" 
+		fi
+	done
+	
 fi
 echo
 
@@ -50,18 +83,28 @@ echo
 read intel
 echo
 
+if [ ! $nids_rules = "YES" ] && [ ! $intel = "YES"  ]; then
+	echo "No rules or intel data selected to import.  Exiting..."
+	exit 0
+fi
 
-echo
-echo "To confirm, we will configure the following values:"
+echo "To confirm, we will configure the following:"
 echo
 
+if [ $nids_rules = "YES" ]; then
+echo "NIDS Rules: /etc/nsm/rules/local.misp.rules"
+fi
+
+if [ $intel = "YES" ]; then
+echo "Bro Intel: /opt/bro/share/bro/intel/misp-intel.dat"
+fi
 echo "IP: $ip"
-echo "PROTOCOL: $protocol"
-echo "APIKEY: (redacted)"
+echo "Protocol: $protocol"
+echo "API Key: (redacted)"
 echo
 
 echo
-echo "If you would like to continue, please type "YES" below:"
+echo "If you would like to continue, please type "YES" below and press the ENTER key:"
 read confirm
 echo
 

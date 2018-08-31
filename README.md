@@ -18,3 +18,5 @@ Download and Configure (on Master or Standalone)
 `grep -i misp /etc/nsm/rules/downloaded.rules`    
 - Confirm Bro Intel in place:    
 `cat /opt/bro/share/bro/intel/misp-intel.dat`
+
+A cron job will run every morning at 6:01AM to download new NIDS rules and Intel.

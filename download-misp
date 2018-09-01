@@ -1,6 +1,8 @@
 #!/bin/bash
 source /etc/misp/mispcfg
 
+ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
+
 for i in $IP $PROTOCOL $APIKEY $RULE_PATH; do
 	if [ $i == "" ]; then
 		echo $i is null!

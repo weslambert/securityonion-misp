@@ -1,4 +1,23 @@
 #!/bin/bash
+#
+# Copyright (C) 2018 Wes Lambert
+#
+# This file is part of Security Onion MISP Import Wizard.
+
+# Security Onion MISP Import Wizard is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# Security Onion MISP Import Wizard is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Description: Configure Security Onion to Import NIDS Rules and Bro Intel from MISP
 
 . /usr/sbin/so-common
 

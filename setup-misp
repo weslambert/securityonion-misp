@@ -89,7 +89,7 @@ echo
 echo
 echo "Would you like to configure NIDS rules for Snort/Suricata?"
 echo 
-echo "Is so, please type YES below and press the ENTER key:"
+echo "If so, please type YES below and press the ENTER key:"
 echo 
 read nids_rules
 echo
@@ -97,7 +97,7 @@ echo
 echo
 echo "Would you like to configure Intel data for Bro?"
 echo 
-echo "Is so, please type YES below and press the ENTER key:"
+echo "If so, please type YES below and press the ENTER key:"
 echo 
 read intel
 echo

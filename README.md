@@ -11,7 +11,7 @@ Download and Configure (on Master or Standalone)
 - Clone the repo:   
 `git clone https://github.com/weslambert/securityonion-misp`   
 - Run the setup script:   
-`sudo securityonion-misp/setup-misp`   
+`sudo securityonion-misp/so-misp-setup`   
 - Update rules (if desired):   
 `sudo rule-update`   
 - Confirm rules in place:    

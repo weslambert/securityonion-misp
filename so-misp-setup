@@ -134,13 +134,13 @@ if [ $confirm != "YES" ]; then
 else
         #echo "Cloning GH Repo..."
 	#git clone https://github.com/weslambert/securityonion-misp
-	MISPCFG="/etc/misp//mispcfg"
+	MISPCFG="/etc/misp/mispcfg"
 	mkdir -p /etc/misp
         cp securityonion-misp/mispcfg $MISPCFG
 	
 	echo "Configuring..."
 	
-	# Configure download-misp with appropriate values
+	# Configure so-misp-download with appropriate values
 	sed -i "s/^IP.*/IP=\"$ip\"/" $MISPCFG
 	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $MISPCFG
 	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
@@ -148,15 +148,15 @@ else
 	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $MISPCFG
 	
 	# Copy misp scripts into place
-	cp securityonion-misp/download-misp /usr/sbin/download-misp
-	cp securityonion-misp/configure-misp /usr/sbin/configure-misp
+	cp securityonion-misp/so-misp-download /usr/sbin/so-misp-download
+	cp securityonion-misp/so-misp-configure /usr/sbin/so-misp-configure
 	
 	# Set perms
-	chmod +x /usr/sbin/download-misp
-        chmod +x /usr/sbin/configure-misp
+	chmod +x /usr/sbin/so-misp-download
+        chmod +x /usr/sbin/so-misp-configure
 	
 	echo
 	# Run configuration script 
-	/usr/sbin/configure-misp	
+	/usr/sbin/so-misp-configure	
 	echo
 fi

@@ -33,7 +33,7 @@ done
 # if NIDS_RULES enabled, then get NIDS rules
 if [[ $NIDS_RULES == "yes" ]];then
 	# get NIDS rules
-	wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
+	wget -q --no-check-certificate --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
 	# Set correct perms
 	chown sguil:sguil $RULE_PATH
 	chmod 644 $RULE_PATH
@@ -43,7 +43,7 @@ fi
 
 # if Bro Intel enabled, then get Bro Intel
 if [[ $INTEL == "yes" ]];then
-        wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/attributes/bro/download/all -O $INTEL_PATH
+        wget -q --no-check-certificate --header="Authorization: $APIKEY"  $PROTOCOL://$IP/attributes/bro/download/all -O $INTEL_PATH
 	LOAD_BRO="/opt/bro/share/bro/intel/__load__.bro"
 	if grep -q misp $LOAD_BRO; then
         	# Already appended to list of intel files

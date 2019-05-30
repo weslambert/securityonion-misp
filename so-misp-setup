@@ -60,7 +60,8 @@ echo "For security, the protocol is set as https, by default."
 echo "Would you like to continue with this protocol? [yes/no]"
 read yesno
 if [ $yesno  = "yes" ]; then
-	:
+	protocol="https"
+        :
 else
 	echo
 	echo "Which protocol would you like to use? [http/https]"

@@ -1,5 +1,5 @@
 # securityonion-misp
-**Grab NIDS rules and Bro Intel generated from a MISP instance and use them in Security Onion:**   
+**Grab NIDS rules and Zeek Intel generated from a MISP instance and use them in Security Onion:**   
 See: https://www.circl.lu/doc/misp/automation/#nids-rules-export
 
 Prerequisites:   
@@ -16,7 +16,7 @@ Download and Configure (on Master or Standalone)
 `sudo rule-update`   
 - Confirm rules in place:    
 `grep -i misp /etc/nsm/rules/downloaded.rules`    
-- Confirm Bro Intel in place:    
-`cat /opt/bro/share/bro/intel/misp-intel.dat`
+- Confirm Zeek Intel in place:    
+`cat /opt/zeek/share/zeek/intel/misp-intel.dat`
 
 A cron job will run every morning at 6:01AM to download new NIDS rules and Intel.

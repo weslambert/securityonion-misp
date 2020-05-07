@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
-# Description: Configure Security Onion to Import NIDS Rules and Bro Intel from MISP
+# Description: Configure Security Onion to Import NIDS Rules and Zeek Intel from MISP
 
 . /usr/sbin/so-common
 
@@ -96,7 +96,7 @@ read nids_rules
 echo
 
 echo
-echo "Would you like to configure Intel data for Bro?"
+echo "Would you like to configure Intel data for Zeek?"
 echo 
 echo "If so, please type YES below and press the ENTER key:"
 echo 
@@ -116,7 +116,7 @@ echo "NIDS Rules: /etc/nsm/rules/local.misp.rules"
 fi
 
 if [ $intel = "YES" ]; then
-echo "Bro Intel: /opt/bro/share/bro/intel/misp-intel.dat"
+echo "Zeek Intel: /opt/zeek/share/zeek/intel/misp-intel.dat"
 fi
 echo "IP: $ip"
 echo "Protocol: $protocol"

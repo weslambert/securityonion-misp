@@ -21,62 +21,13 @@
 
 . /usr/sbin/so-common
 
-is_ip() {
-            case "$*" in
-                ""|*[!0-9.]*) return 1 ;;
-            esac
-            oldIFS=$IFS
-            IFS='.'
-            set -- $*
-            IFS=$oldIFS
-            [ $# -eq 4 ] || return 1
-            for ipseg in $1 $2 $3 $4
-              do
-              case $ipseg in
-                  *[!0-9]*) return 1 ;;
-              esac
-              [ $ipseg -le 255 ] || return 1
-            done
-}
-
 echo
 header "Welcome to the Security Onion MISP Import Wizard!"
 echo
 
-# Get responses
 echo
-VALID_IP="no"
-while [ "$VALID_IP" = "no" ]; do
-        echo "What is the ip address of your MISP instance? [x.x.x.x]"
-	read ip
-	is_ip $ip && VALID_IP="yes"
-done
-echo
-
-echo
-echo "What protocol should be used? [http/https]"
-echo
-echo "For security, the protocol is set as https, by default."
-echo "Would you like to continue with this protocol? [yes/no]"
-read yesno
-if [ $yesno  = "yes" ]; then
-	protocol="https"
-        :
-else
-	echo
-	echo "Which protocol would you like to use? [http/https]"
-	PROTOCOL_SET="no"
-	while [ $PROTOCOL_SET = "no" ]; do
-		read protocol
-		echo $protocol
-		if [ $protocol = "http" ] || [ $protocol = "https" ] ; then
-			PROTOCOL_SET="yes"
-		else
-			echo "Please choose a valid protocol! ('http' or 'https')" 
-		fi
-	done
-	
-fi
+echo "What is the URL of your MISP instance?"
+read mispurl
 echo
 
 echo
@@ -118,8 +69,7 @@ fi
 if [ $intel = "YES" ]; then
 echo "Zeek Intel: /opt/zeek/share/zeek/intel/misp-intel.dat"
 fi
-echo "IP: $ip"
-echo "Protocol: $protocol"
+echo "MISP Server: $mispurl"
 echo "API Key: (redacted)"
 echo
 
@@ -142,8 +92,7 @@ else
 	echo "Configuring..."
 	
 	# Configure so-misp-download with appropriate values
-	sed -i "s/^IP.*/IP=\"$ip\"/" $MISPCFG
-	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $MISPCFG
+	sed -i "s/^MISP.*/MISP=\"$mispurl\"/" $MISPCFG
 	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
 	sed -i "s/^INTEL=.*/INTEL=\"${intel,,}\"/" $MISPCFG
 	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $MISPCFG

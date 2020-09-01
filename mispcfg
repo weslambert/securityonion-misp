@@ -18,8 +18,7 @@
 #
 # Description: Configure Security Onion to Import NIDS Rules and Zeek Intel from MISP
 
-IP=""
-PROTOCOL=""
+MISP=""
 APIKEY=""
 INTEL=""
 NIDS_RULES=""

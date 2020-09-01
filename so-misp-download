@@ -23,7 +23,7 @@ source /etc/misp/mispcfg
 
 ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
 
-for i in $IP $PROTOCOL $APIKEY $RULE_PATH; do
+for i in $MISP $APIKEY $RULE_PATH; do
 	if [ $i == "" ]; then
 		echo $i is null!
 		exit 0
@@ -33,7 +33,7 @@ done
 # if NIDS_RULES enabled, then get NIDS rules
 if [[ $NIDS_RULES == "yes" ]];then
 	# get NIDS rules
-	wget -q --no-check-certificate --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
+	wget -q --no-check-certificate --header="Authorization: $APIKEY"  $MISP/events/nids/$ENGINE/download -O $RULE_PATH
 	# Set correct perms
 	chown sguil:sguil $RULE_PATH
 	chmod 644 $RULE_PATH
@@ -43,7 +43,7 @@ fi
 
 # if Zeek Intel enabled, then get Zeek Intel
 if [[ $INTEL == "yes" ]];then
-        wget -q --no-check-certificate --header="Authorization: $APIKEY"  $PROTOCOL://$IP/attributes/bro/download/all -O $INTEL_PATH
+        wget -q --no-check-certificate --header="Authorization: $APIKEY"  $MISP/attributes/bro/download/all -O $INTEL_PATH
 	LOAD_ZEEK="/opt/zeek/share/zeek/intel/__load__.zeek"
 	if grep -q misp $LOAD_ZEEK; then
         	# Already appended to list of intel files

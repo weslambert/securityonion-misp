@@ -22,6 +22,6 @@ MISP=""
 APIKEY=""
 INTEL=""
 NIDS_RULES=""
-INTEL_PATH="/opt/zeek/share/zeek/intel/misp-intel.dat"
-RULE_PATH="/etc/nsm/rules/local.misp.rules"
+INTEL_PATH="/opt/so/saltstack/local/salt/zeek/policy/intel/misp-intel.dat"
+RULE_PATH="/opt/so/saltstack/local/salt/zeek/idstools/misp.rules"
 

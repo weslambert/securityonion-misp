@@ -21,22 +21,20 @@
 
 source /etc/misp/mispcfg
 
-ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
+ENGINE='suricata'
 
 # Run download script
 /usr/sbin/so-misp-download
 
 echo ""
-echo "Configuring Pulledpork..."
+echo "Configuring IDStools..."
 echo ""
 
-PP_CONF="/etc/nsm/pulledpork/pulledpork.conf"
+IDSTOOLS_CONF="salt/idstools/etc/rulecat.conf"
 
-if [ "$ENGINE" = "snort" ]; then
-	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,$RULE_PATH|" $PP_CONF
-elif [ "$ENGINE" = "suricata" ];then
-	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,/etc/nsm/rules/decoder-events.rules,/etc/nsm/rules/stream-events.rules,/etc/nsm/rules/http-events.rules,/etc/nsm/rules/smtp-events.rules,$RULE_PATH|" $PP_CONF
-fi
+cp /opt/so/saltstack/default/$IDSTOOLS_CONF /opt/so/saltstack/local/$IDSTOOLS_CONF
+
+sed -i '/--local=\/opt\/so\/rules\/nids\/local.rules/a --local=/opt/so/rules/nids/misp.rules' /opt/so/saltstack/local/$IDSTOOLS_CONF
 
 if [ -f /etc/cron.d/so-misp-download ]; then
 	:

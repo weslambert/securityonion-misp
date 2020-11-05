@@ -92,7 +92,7 @@ else
 	echo "Configuring..."
 	
 	# Configure so-misp-download with appropriate values
-	sed -i "s/^MISP.*/MISP=\"$mispurl\"/" $MISPCFG
+	sed -i "s|^MISP.*|MISP=\"$mispurl\"|" $MISPCFG
 	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
 	sed -i "s/^INTEL=.*/INTEL=\"${intel,,}\"/" $MISPCFG
 	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $MISPCFG

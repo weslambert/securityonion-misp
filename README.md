@@ -13,7 +13,7 @@ Download and Configure (on Master or Standalone)
 - Run the setup script:   
 `sudo securityonion-misp/so-misp-setup`   
 - Update rules (if desired):   
-`sudo rule-update`   
+`sudo so-rule-update`   
 - Confirm rules in place:    
 `grep -i misp /opt/so/rules/nids/all.rules`    
 - Confirm Zeek Intel in place:    

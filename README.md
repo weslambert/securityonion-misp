@@ -9,14 +9,14 @@ Prerequisites:
 
 Download and Configure (on Master or Standalone)
 - Clone the repo:   
-`git clone https://github.com/weslambert/securityonion-misp`   
+`git clone -b so2 https://github.com/weslambert/securityonion-misp`   
 - Run the setup script:   
 `sudo securityonion-misp/so-misp-setup`   
 - Update rules (if desired):   
-`sudo rule-update`   
+`sudo so-rule-update`   
 - Confirm rules in place:    
-`grep -i misp /etc/nsm/rules/downloaded.rules`    
+`grep -i misp /opt/so/rules/nids/all.rules`    
 - Confirm Zeek Intel in place:    
-`cat /opt/zeek/share/zeek/intel/misp-intel.dat`
+`cat /opt/so/conf/zeek/policy/intel/misp-intel.dat`
 
 A cron job will run every morning at 6:01AM to download new NIDS rules and Intel.

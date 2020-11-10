@@ -22,7 +22,7 @@
 . /usr/sbin/so-common
 
 echo
-header "Welcome to the Security Onion MISP Import Wizard!"
+echo "Welcome to the Security Onion MISP Import Wizard!"
 echo
 
 echo
@@ -63,11 +63,11 @@ echo "To confirm, we will configure the following:"
 echo
 
 if [ $nids_rules = "YES" ]; then
-echo "NIDS Rules: /etc/nsm/rules/local.misp.rules"
+echo "NIDS Rules: /opt/so/saltstack/local/salt/idstools/misp.rules"
 fi
 
 if [ $intel = "YES" ]; then
-echo "Zeek Intel: /opt/zeek/share/zeek/intel/misp-intel.dat"
+echo "Zeek Intel: /opt/so/saltstack/local/salt/zeek/policy/intel/misp-intel.dat"
 fi
 echo "MISP Server: $mispurl"
 echo "API Key: (redacted)"
@@ -92,7 +92,7 @@ else
 	echo "Configuring..."
 	
 	# Configure so-misp-download with appropriate values
-	sed -i "s/^MISP.*/MISP=\"$mispurl\"/" $MISPCFG
+	sed -i "s|^MISP.*|MISP=\"$mispurl\"|" $MISPCFG
 	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
 	sed -i "s/^INTEL=.*/INTEL=\"${intel,,}\"/" $MISPCFG
 	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $MISPCFG

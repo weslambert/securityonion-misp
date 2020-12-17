@@ -48,10 +48,10 @@ if [[ $INTEL == "yes" ]];then
         	:
 	else
         	# Add misp-intel to list of intel files
-        	sed -i 's#.*"/opt/zeek/share/zeek/policy/intel/intel.dat"#        "/opt/zeek/share/zeek/policy/intel/intel.dat",#' $LOAD_ZEEK
+        	cp /opt/so/saltstack/default/salt/zeek/policy/intel/__load__.zeek $LOAD_ZEEK
+                sed -i 's#.*"/opt/zeek/share/zeek/policy/intel/intel.dat"#        "/opt/zeek/share/zeek/policy/intel/intel.dat",#' $LOAD_ZEEK
         	sed -i '/.*intel.dat",/a \ \ \ \ \ \ \ \ "\/opt\/zeek\/share\/zeek\/policy\/intel\/misp-intel.dat\"' $LOAD_ZEEK
 	fi
 else
         :
 fi
-

@@ -27,11 +27,16 @@ echo ""
 echo "Configuring IDStools..."
 echo ""
 
-IDSTOOLS_CONF="salt/idstools/etc/rulecat.conf"
 
-cp /opt/so/saltstack/default/$IDSTOOLS_CONF /opt/so/saltstack/local/$IDSTOOLS_CONF
+if [[ $NIDS_RULES == "yes" ]];then
 
-sed -i '/--local=\/opt\/so\/rules\/nids\/local.rules/a --local=/opt/so/rules/nids/misp.rules' /opt/so/saltstack/local/$IDSTOOLS_CONF
+  IDSTOOLS_CONF="salt/idstools/etc/rulecat.conf"
+
+  cp /opt/so/saltstack/default/$IDSTOOLS_CONF /opt/so/saltstack/local/$IDSTOOLS_CONF
+
+  sed -i '/--local=\/opt\/so\/rules\/nids\/local.rules/a --local=/opt/so/rules/nids/misp.rules' /opt/so/saltstack/local/$IDSTOOLS_CONF
+
+fi
 
 if [ -f /etc/cron.d/so-misp-download ]; then
 	:
